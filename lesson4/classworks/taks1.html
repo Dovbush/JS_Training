@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Forms Task 1</title>
+  
+</head>
+<body>
+  <form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Ваш логин" />
+    <input type="password" name='pas1' placeholder="Ваш пароль" />
+    <input type="password" name='pas2' placeholder="Повторите пароль" />
+    <label for="agree">
+      <span>Вы согласны с лицензионым соглашением.</span>
+      <input type="checkbox" id="agree" />
+    </label>
+    <input type="submit" id="submit" value="Отправить" disabled/>
+  </form>
+
+  <style>
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+    .error{
+        border: 1px solid red;
+    }
+    .OK{
+        border: 1px solid green;
+    }
+  </style>
+  <script>
+    const mainForm = document.getElementById('MyValidateForm');
+    const submitBtn = document.getElementById('submit');
+    const agreement = document.getElementById('agree');
+
+    window.onload = function() {
+      agreement.addEventListener('click', checkAgreement);
+      submitBtn.addEventListener('click', submitForm);
+      mainForm.login.addEventListener('change', checkLength);
+      mainForm.pas1.addEventListener('change', checkLength);
+      mainForm.pas2.addEventListener('change', checkLength);
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      if (checkIfNotEmpty()) {
+        checkPassMatch(mainForm.pas1, mainForm.pas2);
+        return true;
+      }
+      return false;
+    }
+
+    function checkAgreement(event) {
+      console.log(event.target.checked);
+      if (event.target.checked) {
+        submitBtn.removeAttribute('disabled');
+      } else {
+        submitBtn.setAttribute('disabled', true);
+      }
+    }
+
+    function checkIfNotEmpty() {
+      let isValid = true;
+      if (mainForm.login.value.length === 0) {
+        mainForm.login.classList.add('error');
+        isValid = false;
+      }
+      if (mainForm.pas1.value.length === 0) {
+        mainForm.pas1.classList.add('error');
+        isValid = false;
+      }
+      if (mainForm.pas2.value.length === 0) {
+        mainForm.pas2.classList.add('error');
+        isValid = false;
+      }
+      return isValid;
+    }
+
+    function checkPassMatch(elem1, elem2) {
+      if (elem1.value !== elem2.value) {
+        elem1.classList.remove('OK');
+        elem1.classList.add('error');
+        elem2.classList.remove('OK');
+        elem2.classList.add('error');
+        return false;
+      } else {
+        elem1.classList.remove('error');
+        elem1.classList.add('OK');
+        elem2.classList.remove('error');
+        elem2.classList.add('OK');
+      }
+      return true;
+    }
+
+    function checkLength(event) {
+      if (event.target.value.length !== 0) {
+        event.target.classList.add('OK');
+        event.target.classList.remove('error');
+      }
+    }
+    
+
+    /*
+      Задание:
+        Сделать валидацию формы:
+        1. Логин / Пароль не может быть пустым
+        2. Пароли должны совпадть
+        3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+
+        + бонус - то поле, которое не прошло валидацию подсвечивать красным.
+                - которое прошло - подсвечивать зеленым.
+    */
+  </script>
+
+</body>
+</html>
