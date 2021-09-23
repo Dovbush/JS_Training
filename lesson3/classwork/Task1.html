@@ -26,6 +26,33 @@
 
     </div>
     <script>
+      var ListCount = 0;
+      var countLimit = 6;
+
+      let btnAdd = document.getElementById('AddToList');
+      btnAdd.addEventListener('click', submitNewItem);
+
+      function submitNewItem() {
+        let inputFld = document.getElementById('Receiver');
+        let biglist = document.getElementById('list');
+        let newItem = document.createElement('li');
+        newItem.innerText = inputFld.value;
+        biglist.appendChild(newItem);
+
+        clearInput(inputFld);
+        validateList();
+      }
+
+      function validateList() {
+        let items = document.querySelectorAll('li');
+        if (items.length === countLimit) {
+          btnAdd.setAttribute('disabled', true);
+        }
+      }
+
+      function clearInput(elem) {
+        elem.value = '';
+      }
       /*
         Задание:
 
@@ -52,7 +79,7 @@
 
       */
 
-      var ListCount = 0;
+      
 
     </script>
   </body>
