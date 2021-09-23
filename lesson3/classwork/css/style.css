@@ -25,7 +25,12 @@ body{
   border-radius: 5px;
 }
 .eventButton{
-
+  width: 200px;
+  height: 30px;
+  background: greenyellow;
+  transition: 1s;
+  outline: none;
+  border-radius: 0px;
 }
 .eventButton.unactive{
   background: #eee;
