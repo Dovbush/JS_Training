@@ -41,7 +41,7 @@
     const submitBtn = document.getElementById('submit');
     const agreement = document.getElementById('agree');
 
-    window.onload = function() {
+    window.onload = () => {
       agreement.addEventListener('click', checkAgreement);
       submitBtn.addEventListener('click', submitForm);
       mainForm.login.addEventListener('change', checkLength);
@@ -86,16 +86,12 @@
 
     function checkPassMatch(elem1, elem2) {
       if (elem1.value !== elem2.value) {
-        elem1.classList.remove('OK');
-        elem1.classList.add('error');
-        elem2.classList.remove('OK');
-        elem2.classList.add('error');
+        elem1.className = 'error';
+        elem2.className = 'error';
         return false;
       } else {
-        elem1.classList.remove('error');
-        elem1.classList.add('OK');
-        elem2.classList.remove('error');
-        elem2.classList.add('OK');
+        elem1.className = 'OK';
+        elem2.className = 'OK';
       }
       return true;
     }
