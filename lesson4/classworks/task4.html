@@ -1,39 +1,143 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Form work1</title>
-  <script>
-    /*
-      Задание:
 
-      1. Сгенерировать список стран в Select countries
-      2. При выборе страны генерировать еще один Select со списком
-        городов этой страны и вывести этот селект в блок result
-      3. При выборе города нужно случайно рандомить температуру от
-      -10 градусов до +40. Если температура
+  <head>
+    <meta charset="UTF-8">
+    <title>Form work1</title>
+  </head>
 
-        -10 до 0 то 'Солнечно' 'Легкий снегопад' 'Сильный снегопад'
-        0 до 30 то  'Солнечно' 'Дождь' 'Ветер' 'Сильный дождь'
-        30 до 40 то 'Солнечно' 'Засуха' 'Ветер'
+  <body>
+    <select id="countries" class="mainPicklist"></select>
+    <div id="result"></div>
 
-      4. Вывести сообщение на страничку
-        {Country}. В {City} {Weather} {Temperature} градусов.
-        Ukraine. В Kyiv Солнечно -10 градусов
+    <style>
+      .mainPicklist {
+        margin-bottom: 10px;
+      }
+      .hide-cities {
+        display: none;
+      }
+      .show-cities {
+        display: block;
+      }
+    </style>
+    <script>
+      /*
+        Задание:
 
-        + бонус добавить красивые картинки с погодой
-    */
-    window.addEventListener("load", function () {
-      var countries = ['Ukraine', 'Poland', 'USA'];
-      var ukraineCity = ['Kyiv', 'Lviv', 'Odesa', 'Charkiv'];
-      var polandCity = ['Warszawa', 'Poznan', 'Krakow', 'Katowice'];
-      var usaCity = ['New York', 'Los Angeles', 'Las Vegas', 'Chicago'];
-    });
-  </script>
-</head>
-<body>
-  <select id="countries"></select>
-  <div id="result"></div>
-  
-</body>
+        1. Сгенерировать список стран в Select countries
+        2. При выборе страны генерировать еще один Select со списком
+          городов этой страны и вывести этот селект в блок result
+        3. При выборе города нужно случайно рандомить температуру от
+        -10 градусов до +40. Если температура
+
+          -10 до 0 то "Солнечно" "Легкий снегопад" "Сильный снегопад"
+          0 до 30 то  "Солнечно" "Дождь" "Ветер" "Сильный дождь"
+          30 до 40 то "Солнечно" "Засуха" "Ветер"
+
+        4. Вывести сообщение на страничку
+          {Country}. В {City} {Weather} {Temperature} градусов.
+          Ukraine. В Kyiv Солнечно -10 градусов
+
+          + бонус добавить красивые картинки с погодой
+      */
+
+      const countries = {
+                         "Ukraine" : ["Kyiv", "Lviv", "Odesa", "Charkiv"],
+                         "Poland" : ["Warszawa", "Poznan", "Krakow", "Katowice"],
+                         "USA" : ["New York", "Los Angeles", "Las Vegas", "Chicago"]
+                        };
+
+      window.addEventListener("load", function () {
+        populateResultBlockStructure();
+        let picklist = document.getElementById("countries");
+        picklist.addEventListener('change', generateCityList);
+        picklist = createSelectOptions(picklist, Object.keys(countries), 'Оберіть країну', '_coutnry-selector');
+      });
+
+
+      // function creates second picklist (hidden) and output message;
+      populateResultBlockStructure = () => {
+        let resultBlock = document.getElementById("result");
+        let cities = document.createElement('select');
+        cities.id = 'cities';
+        cities.className = 'hide-cities';
+        cities.addEventListener('change', createResultMessage);
+        resultBlock.appendChild(cities);
+        
+        let messageBlock = document.createElement('p');
+        messageBlock.id = 'messageBlock';
+        resultBlock.appendChild(messageBlock);
+      }
+
+      // function creates new select options and puts it to the picklist;
+      function createSelectOptions(parentElem, optionsList, startName, classTitle) {
+        optionsList.forEach((country) => {
+          let newOption = document.createElement("option");
+          newOption.innerText = country;
+          newOption.className = classTitle;
+          parentElem.appendChild(newOption);
+        })
+        let startOpt = new Option(startName, null, true, true);
+        startOpt.disabled = true;
+        startOpt.className = classTitle;
+        parentElem.appendChild(startOpt);
+        return parentElem;
+      }
+
+      // function generates new city options. Old options are deleted;
+      const generateCityList = (event) => {
+        event.stopPropagation();
+        let selectedCountry = event.target.value;
+        let cities = document.getElementById('cities');
+        
+        let citiesToRemove = document.querySelectorAll("._city-selector");
+        if (citiesToRemove) {
+          citiesToRemove.forEach((option) => {
+            option.remove();
+          })
+        }
+        cities = createSelectOptions(cities, countries[selectedCountry], "Оберіть місто", "_city-selector");
+        cities.className = 'show-cities';
+      }
+
+      // funcition generates output massage based on input data;
+      const createResultMessage = (event) => {
+        event.stopPropagation();
+        let degree = getRandomIntInclusive(-10, 40);
+        let city = document.getElementById('cities').value;
+        let weather = '';
+
+        // -10 до 0 то "Солнечно" "Легкий снегопад" "Сильный снегопад"
+        // 0 до 30 то  "Солнечно" "Дождь" "Ветер" "Сильный дождь"
+        // 30 до 40 то "Солнечно" "Засуха" "Ветер"
+
+        let country = document.getElementById('countries').value;
+        console.info(country, city, degree);
+        switch (true) {
+          case degree > -10 && degree < 0:
+            weather = 'Легкий снегопад';
+            break;
+          case degree > 0 && degree < 30: 
+            weather = 'Солнечно';
+            break;
+          case degree > 30:
+            weather = 'Засуха';
+            break;
+        }
+        let messageBlock = document.getElementById("messageBlock");
+        messageBlock.innerText = `${country}. В ${city} ${weather} ${degree} градусов.`;
+      }
+
+
+      const getRandomIntInclusive = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+    </script>
+
+  </body>
+
 </html>

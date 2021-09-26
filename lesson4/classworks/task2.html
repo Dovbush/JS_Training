@@ -4,55 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Form work1</title>
-  <script>
-    /*
-      Задание:
-        Сделать шиблонизатор элемента по:
-        Ширине input type=range
-        Цвету  input type=color
-        Высоте input type=number
-        Скругление углов input type=number
-        Margin input type=number
-
-      Свойсвта: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference
-
-        + Сделать выборку цвета из рандомных 20 цветов которые выбираются из появившегося блока :
-        https://s3.envato.com/files/230412754/screenshots/1.png
-        За заготовку для рандома цвета использовать функцию из первых занятий.
-
-    */
-
-    window.addEventListener("load", function () {
-      var myWidth = document.getElementById('myWidth');
-
-      myWidth.addEventListener('input', function (event) {
-        console.log(event.target.value);
-
-        // var result = document.getElementById('result');
-
-        result.style.width = event.target.value + 'px';
-      });
-    });
-
-  </script>
-
-  <style>
-    #test {
-      width: 400px;
-      height: 400px;
-      background: green;
-    }
-  </style>
 </head>
 
 <body>
   <div class="Templating">
     <form>
       <input type="range" id="myWidth" min="10" max="500" step="10" />
-      <input type="color" id="myColor" min="10" max="500" step="10" />
-      <input type="range" id="" min="10" max="500" step="10" />
-      <input type="range" id="" min="10" max="500" step="10" />
-      <input type="range" id="" min="10" max="500" step="10" />
+      
+      <input type="range" id="myHeight" min="10" max="500" step="10" />
+      <input type="range" id="myBorderRadius" min="10" max="500" step="10" />
+      <input type="range" id="myMargin" min="10" max="500" step="10" />
+      <input type="color" id="myColor" list="predefinedColors">
+        <datalist id="predefinedColors">
+          <!-- dynamic list with color options goes here -->
+        </datalist>
+      </input>
     </form>
 
     <div class="TemplatingResult">
@@ -61,11 +27,16 @@
   </div>
 
 
-  <div id="test">
+  <!-- <div id="test">
     <span>some test</span>
-  </div>
+  </div> -->
 
   <style>
+    #test {
+      width: 400px;
+      height: 400px;
+      background: green;
+    }
     #colors {
       width: 200px;
 
@@ -99,6 +70,81 @@
       border-radius: 50%;
     }
   </style>
+
+  <script>
+    /*
+      Задание:
+        Сделать шиблонизатор элемента по:
+        Ширине input type=range
+        Цвету  input type=color
+        Высоте input type=number
+        Скругление углов input type=number
+        Margin input type=number
+
+      Свойсвта: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference
+
+        + Сделать выборку цвета из рандомных 20 цветов которые выбираются из появившегося блока :
+        https://s3.envato.com/files/230412754/screenshots/1.png
+        За заготовку для рандома цвета использовать функцию из первых занятий.
+
+    */
+    var result = document.getElementById('result');
+
+    window.addEventListener("load", function () {
+      let myWidth = document.getElementById('myWidth');
+      setEventOnInput(myWidth, 'width', true);
+
+      let myHeight = document.getElementById('myHeight');
+      setEventOnInput(myHeight, 'height', true);
+
+      let myBorderRadius = document.getElementById('myBorderRadius');
+      setEventOnInput(myBorderRadius, 'borderRadius', true);
+
+      let myMargin = document.getElementById('myMargin');
+      setEventOnInput(myMargin, 'margin', true);
+
+      let myColor = document.getElementById('myColor');
+      setEventOnInput(myColor, 'backgroundColor', false);
+
+      setColorOptions();
+    });
+
+    const setEventOnInput = (elem, attr, isPx) => {
+      elem.addEventListener('input', function (event) {
+        console.log(event.target.value);
+        result.style[attr] = isPx ? event.target.value + 'px' : event.target.value;
+      });
+    }
+
+    const setColorOptions = () => {
+      let colorList = document.getElementById('predefinedColors');
+      for (let i=0; i<20; i++) {
+        let randomCol = getRandomBackgroundColor();
+        let newColorOpt = document.createElement('option');
+        newColorOpt.innerText = randomCol;
+        colorList.appendChild(newColorOpt);
+      }
+    }
+
+    const getRandomIntInclusive = (min, max) => {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    const getRandomBackgroundColor = () => {
+      var rr = getHexValue(getRandomIntInclusive(10, 255));
+      var gg = getHexValue(getRandomIntInclusive(10, 255));
+      var bb = getHexValue(getRandomIntInclusive(10, 255));
+      
+      return `#${rr}${gg}${bb}`;
+    }
+
+    const getHexValue = (num) => {
+      return num.toString(16);
+    }
+
+  </script>
 </body>
 
 </html>
