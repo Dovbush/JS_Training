@@ -1,6 +1,75 @@
-console.log('hw');
+const mainForm = document.getElementById("MyValidateForm");
+const submitBtn = document.getElementById("submit");
+const validateBtn = document.getElementById("validate");
+const agreement = document.getElementById("agree");
 
-    /*
+window.onload = () => {
+    agreement.addEventListener("click", checkAgreement);
+    submitBtn.addEventListener("click", submitForm);
+    validateBtn.addEventListener("click", validateForm);
+
+    mainForm.login.setCustomValidity('Как тебя зовут дружище?!');
+    mainForm.email.setCustomValidity('Ну и зря, не получишь бандероль с яблоками!');
+    mainForm.pass1.setCustomValidity('Я никому не скажу наш секрет');
+    mainForm.apples.setCustomValidity('Ну хоть покушай немного... Яблочки вкусные');
+    mainForm.notes.setCustomValidity('Фу, неблагодарный(-ая)!');
+
+    mainForm.apples.addEventListener('change', checkIfNotZero);
+    mainForm.notes.addEventListener('change', validateComment);
+};
+
+function submitForm(event) {
+    return true;
+}
+
+function validateForm(event) {
+    validateAndStyle(mainForm.login);
+    validateAndStyle(mainForm.email);
+    validateAndStyle(mainForm.pass1);
+    validateAndStyle(mainForm.notes);
+    validateAndStyle(mainForm.apples);
+
+    if (mainForm.checkValidity()) {
+        mainForm.reportValidity();
+        event.preventDefault();
+    }
+}
+
+function validateAndStyle(elem) {
+    if (!elem.validity.valid) {
+        elem.className = 'error';
+    }
+}
+
+function checkAgreement(event) {
+    console.log(event.target.checked);
+    if (event.target.checked) {
+        submitBtn.removeAttribute("disabled");
+    } else {
+        submitBtn.setAttribute("disabled", true);
+    }
+}
+
+function checkIfNotZero(event) {
+    console.info('apples', typeof mainForm.apples.value);
+
+    if (!mainForm.apples.checkValidity()) {
+        mainForm.apples.setCustomValidity('Ну хоть покушай немного... Яблочки вкусные');
+    }
+    if (event.target.value === '0') {
+        mainForm.apples.setCustomValidity('Ну хоть покушай немного... Яблочки вкусные');
+    }
+}
+
+function validateComment() {
+    if (mainForm.notes.value !== 'thanks') {
+        mainForm.notes.setCustomValidity('Фу, неблагодарный(-ая)!');
+    }
+}
+
+
+
+/*
 
         Документация:
         
