@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Homework Form</title>
+  
+</head>
+<body>
+  <form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Имя пользователя" minlength="2" oninput="this.setCustomValidity('')" required />
+
+    <input type="email" name='email' placeholder="Email" minlength="3" oninput="this.setCustomValidity('')" required />
+
+    <input type="password" name='pass1' placeholder="Пароль" minlength="8"; maxlength="16" oninput="this.setCustomValidity('')" required />
+
+    <input type="number" name='apples' placeholder="Количество сьеденых яблок" minlength="1" oninput="this.setCustomValidity('')" required />
+
+    <input type="text" name='notes' placeholder="Напиши спасибо за яблоки" oninput="this.setCustomValidity('')" required />
+
+    <label for="agree">
+      <span>Согласен на обучение?</span>
+      <input type="checkbox" id="agree" />
+    </label>
+
+    <input type="submit" id="submit" value="Submit" disabled/>
+    <input type="submit" id="validate" value="Validate"/>
+  </form>
+
+  <style>
+    #MyValidateForm{
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input{
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+    .error{
+        border: 1px solid red;
+    }
+    .OK{
+        border: 1px solid green;
+    }
+    input:valid{
+        border-color: green;
+    }
+
+  </style>
+
+  <script src="Task1.js"></script>
+
+</body>
+</html>
