@@ -1,30 +1,63 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <title>ITEA-JS ADVANCED - LESSON 2: CLASSWORK 3</title>
   <link rel="stylesheet" href="css/style.min.css" />
 </head>
+
 <body>
   <div class="buttons" id="target">
-    <button class="popup__button" id="popup_1" data-popup="1"> Show popup 1</button>
-    <button class="popup__button" id="popup_2" data-popup="2"> Show popup 2</button>
-    <button class="popup__button" id="popup_3" data-popup="3"> Show popup 3</button>
+    <button class="popup__button" id="popup_1" data-popup="1" onclick="displayPopUp(event)"> Show popup 1</button>
+    <button class="popup__button" id="popup_2" data-popup="2" onclick="displayPopUp(event)"> Show popup 2</button>
+    <button class="popup__button" id="popup_3" data-popup="3" onclick="displayPopUp(event)"> Show popup 3</button>
   </div>
 
   <div class="popup" id="popup">
 
     <div class="popup__body">
-      <button class="popup__close" id="popup__close">Close popup</button>
+      <button class="popup__close" id="popup__close" onclick="closePopUp()">Close popup</button>
       <div class="popup__container" id="popup__container">
-        <div class="popup__item" data-popup="1"><h2>I'm first popup</h2></div>
-        <div class="popup__item" data-popup="2"><h2>I'm second popup</h2></div>
-        <div class="popup__item" data-popup="3"><h2>I'm third popup</h2></div>
+        <div class="popup__item" data-popup="1">
+          <h2>I'm first popup</h2>
+        </div>
+        <div class="popup__item" data-popup="2">
+          <h2>I'm second popup</h2>
+        </div>
+        <div class="popup__item" data-popup="3">
+          <h2>I'm third popup</h2>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
+
+    window.onload = () => {
+
+    }
+    let mainPopUp = document.querySelector('.popup');
+    let AllPopUps = document.querySelectorAll('.popup__item');
+
+    function displayPopUp(e) {
+      let popupNum = e.target.dataset.popup;
+      console.log('popup #', popupNum);
+      mainPopUp.classList.add('show');
+      for (let popup of AllPopUps) {
+        let popNum = popup.dataset.popup;
+        if (popupNum === popNum) {
+          popup.classList.add('show');
+        }
+      }
+    }
+
+    function closePopUp() {
+      mainPopUp.classList.remove('show');
+      for (let popup of AllPopUps)
+        popup.classList.remove('show');
+    }
+
     /*
 
       Задача: Сделать корректно работающее всплывающее окно.
@@ -35,4 +68,5 @@
     */
   </script>
 </body>
+
 </html>

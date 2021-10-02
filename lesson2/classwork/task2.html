@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <title>ITEA-JS ADVANCED - LESSON 2: CLASSWORK 2</title>
   <link rel="stylesheet" href="css/style.min.css" />
 </head>
+
 <body>
   <div class="wrap">
     <div class="testBlock hover">
@@ -37,43 +39,77 @@
 
   <script>
 
-    var mouseHover = document.getElementById('mouseHover');
-    var mouseClick = document.getElementById('mouseClick');
-    var mouseLight = document.getElementById('mouseLight');
-    var keyboardButton = document.getElementById('keyboardButton');
+    window.onload = () => {
+      var mouseHover = document.getElementById('mouseHover');
+      var mouseClick = document.getElementById('mouseClick');
+      var mouseLight = document.getElementById('mouseLight');
+      var keyboardButton = document.getElementById('keyboardButton');
 
-    mouseHover.onmouseenter = function(){
-      console.log('hover');
-    }
-
-    var clickIndex = 0;
-    var direction = true;
-
-    mouseClick.onclick = function(){
-        console.log('click');
-    }
-
-
-    mouseLight.onclick = function(e){
-      let result = document.getElementById('lightResult');
-      if (result.classList.contains('off')) {
-        result.classList.remove('off');
-        result.classList.add('red');
-      } else if (result.classList.contains('red')) {
-        result.classList.remove('red');
-        result.classList.add('yellow');
-      } else if (result.classList.contains('yellow')) {
-        result.classList.remove('yellow');
-        result.classList.add('green');
-      } else if (result.classList.contains('green')) {
-        result.classList.remove('green');
-        result.classList.add('off');
+      mouseHover.onmouseenter = function () {
+        console.log('hover');
       }
+
+      var clickIndex = 0;
+      var direction = true;
+
+      mouseClick.onclick = function () {
+        console.log('click');
+      }
+
+
+      mouseLight.onclick = function (e) {
+        let result = document.getElementById('lightResult');
+        if (result.classList.contains('off')) {
+          result.classList.remove('off');
+          result.classList.add('red');
+        } else if (result.classList.contains('red')) {
+          result.classList.remove('red');
+          result.classList.add('yellow');
+        } else if (result.classList.contains('yellow')) {
+          result.classList.remove('yellow');
+          result.classList.add('green');
+        } else if (result.classList.contains('green')) {
+          result.classList.remove('green');
+          result.classList.add('off');
+        }
+      }
+
+      
+      task4();
     }
 
-    var counter = 0;
-    keyboardButton.onkeydown = function(){
-        console.log('keydown');
+    function task4() {
+      var counter = 0;
+      let index = 0;
+      var getButton = document.querySelector('keyboardButton')
+      var getKeyboard = document.querySelector('keyboardResult')
+
+      var numbers4 = [
+        'zero',
+        'one',
+        'two',
+        'three',
+        'four',
+        'five',
+        'six',
+        'seven',
+        'eight',
+        'nine'
+      ]
+
+      keyboardButton.onkeydown = function (e) {
+        var number4 = e.target.nextElementSibling
+        number4.innerText = counter
+        var number_counts = counter
+          .toString()
+          .split('')
+          .map(num => numbers4[num]);
+
+        index = counter % 10;
+        number4.className = 'resultBlock key-colors ' + numbers4[index];
+        counter++;
+        console.log('keydown')
+      }
     }
     /*
 
@@ -99,7 +135,7 @@
 
         one > two > three ... > six
 
-      3. На кнопку клика (Light) повесить обработчик, который будет выводить в 
+      3. На кнопку клика (Light) повесить обработчик, который будет выводить в
       блок с результатом (lightResult) поочередно один из цветов светофора:
       Цикл: Off -> Red -> Yellow -> Green -> Off
 
@@ -119,7 +155,8 @@
 
     */
 
-    
+
   </script>
 </body>
+
 </html>
