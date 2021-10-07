@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Homework</title>
+</head>
+<body>
+      <!--
+        Создайте счетчик секунд, который начинает отчет с 1 и заканчивается на 30,
+        также добавьте кнопки который останавливают отчет, и запускают его заново и добавьте кнопку обнуляющую отчет.
+        Также попробуйте изменить код так чтобы отчет начиналься с 30 и заканчивалься на 1.
+
+       + бонус: Сделать так что бы на каждый тик (1с/2c) менялся цвет фона. Можно на основе генератора случайного цвета с предудущих уроков.
+       + бонус: Сделать визуализацию стрелки которая идет по кругу
+            document.getElementById("myDIV").style.transform = "rotate(7deg)";
+
+       + бонус: Сделать кнопки которые выбирают режим в котором идет отсчет - обычный от 0 до 30 или реверсивный от 30 до 0
+      -->
+
+      <section>
+        <h2>Time: <span id="timeValue"></span></h2>
+        <button id="startTime"> Start Timer </button>
+        <button id="stopTime"> Stop Timer </button>
+        <button id="revertTimer"> Revert Timer </button>
+      </section>
+
+      <script>
+        var counter = 0;
+        let timerObj = null;
+
+        window.onload = () => {
+          // start timer
+          const startBtn = document.getElementById('startTime');
+          startBtn.addEventListener('click', startTimer);
+
+          // stop timer part
+          const stopTime = document.getElementById('stopTime');
+          stopTime.addEventListener('click', stopTimer);
+
+          // revert timer setup
+          const revertTimerBtn = document.getElementById('revertTimer');
+          revertTimerBtn.addEventListener('click', setRevertTimer);
+        }
+
+
+
+        function stopTimer() {
+          clearInterval( timerObj );
+        }
+
+        function startTimer() {
+          stopTimer();
+          counter = counter == 29 ? 1 : counter;
+          timerObj = setInterval( setNewTimer, 1000 );
+        }
+
+        function setNewTimer() {
+          if (counter == 29) {
+            stopTimer();
+          }
+          counter++;
+          const timeNode = document.getElementById('timeValue');
+          timeNode.innerHTML = counter;
+          setRandomBackgroundColor();
+        }   
+
+        function setRevertTimer() {
+          stopTimer();
+          counter = counter == 2 ? 30 : counter;
+          timerObj = setInterval( revertTimerFunction, 1000 );
+        }
+
+        function revertTimerFunction() {
+          if (counter == 2) {
+            stopTimer();
+          }
+          counter--;
+          const timeNode = document.getElementById('timeValue');
+          timeNode.innerHTML = counter;
+          setRandomBackgroundColor();
+        }
+
+        // helper functions
+        function getRandomIntInclusive(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        function setRandomBackgroundColor() {
+          var r = getRandomIntInclusive(0, 255);
+          var g = getRandomIntInclusive(0, 255);
+          var b = getRandomIntInclusive(0, 255);
+          // set body background color with rgb;
+          document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        }
+        
+      </script>
+</body>
+</html>
