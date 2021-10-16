@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Constructors</title>
+</head>
+<body>
+  <div class="wrap"></div>
+  <script>
+    function Planet(name) {
+      this.name = name;
+      this.population = randomPopulation();
+
+      var populationMultiplyRate = getRandomIntInclusive(1000, 10000);
+
+      this.rotatePlanet = function() {
+        let randomNumber = getRandomIntInclusive(1, 1000);
+        if ((randomNumber % 2) == 0) {
+          growPopulation();
+        } else {
+          сataclysm();
+        }
+      }
+
+      function randomPopulation() {
+        return getRandomIntInclusive(1, 10000);
+      }
+    
+      growPopulation = () => {
+        console.log(this.populationMultiplyRate);
+        this.population += populationMultiplyRate * 100;
+
+        console.log(`за один цикл прибавилось ${this.population} населения на планете`);
+      }
+
+      сataclysm = () => {
+        var randomNum = getRandomIntInclusive(1, 10);
+        this.population -= (randomNum * 250);
+
+        console.log(`от катаклизма погибло ${randomNum} человек на планете. Осталось населения ${this.population} человек`);
+      }
+    }
+
+    function getRandomIntInclusive(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+  /*
+
+    Задание:
+
+    Написать функцию конструктор, которая будет иметь приватные и публичные свойства.
+    Публичные методы должны вызывать приватные.
+
+    Рассмотрим на примере планеты:
+
+      - На вход принимаются параметр Имя планеты.
+
+      Создается новый обьект, который имеет публичные методы и свойства:
+      - name (передается через конструктор)
+      - population ( randomPopulation());
+      - rotatePlanet(){
+        let randomNumber = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
+        if ( (randomNumber % 2) == 0) {
+          growPopulation();
+        } else {
+          Cataclysm();
+        }
+      }
+
+      Приватное свойство:
+      populationMultiplyRate - случайное число от 1 до 10;
+
+      Приватные методы
+      randomPopulation -> Возвращает случайное целое число от 1.000 до 10.000
+      growPopulation() {
+        функция которая берет приватное свойство populationMultiplyRate
+        которое равняется случайному числу от 1 до 10 и умножает его на 100.
+        Дальше, число которое вышло добавляет к популяции и выводит в консоль сообщение,
+        что за один цикл прибавилось столько населения на планете .
+      }
+      Cataclysm(){
+        Рандомим число от 1 до 10 и умножаем его на 250;
+        То число которое получили, отнимаем от популяции.
+        В консоль выводим сообщение - от катаклизма погибло Х человек на планете.
+      }
+
+  */
+
+  </script>
+</body>
+</html>
