@@ -1,0 +1,28 @@
+/*
+  Asynchronous Javascript And Xml
+*/
+
+//let getUsersUrl = "https://jsonplaceholder.typicode.com/users";
+// 1. Создаём новый объект XMLHttpRequest
+let xhr = new XMLHttpRequest();
+// 2. Настраиваем метод open
+// xhr.open(method, URL, async, user, password)
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/users', false);
+// 3. Отсылаем запрос
+xhr.send();
+
+// Нас интересует 3 параметра: xhr.status, xhr.statusText, xhr.responseText
+// 4. Если код ответа сервера не 200, то это скорее всего ошибка
+// https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+console.log(xhr);
+
+if (xhr.status !== 200) {
+  // Обработаем ошибку
+  console.log( xhr.status, xhr.statusText ); // пример вывода: 404: Not Found
+} else {
+  console.log( xhr.responseText );
+  // вывести результат
+  var myResponse = JSON.parse(xhr.responseText);
+  console.log(myResponse); // responseText -- текст ответа.
+  myResponse.map( item => console.log(item.name) )
+}
