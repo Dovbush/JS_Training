@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Classwork</title>
+  <style>
+    .mainPicklist {
+      margin-bottom: 10px;
+    }
+    p {
+      margin: 0;
+    }
+    .display-inline {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+    }
+  </style>
+  <!--task 1-->
+  <div id="wrapper" class="display-inline">
+    <input type="text" id="searchTerm">
+    <button id="search">Search</button>
+
+    <p>ITEA courses</p>
+    <ul id="iteaResult"></ul>
+  </div>
+
+  <!--task 2-->
+  <div class="display-inline">
+    <select id="starts" class="mainPicklist"></select>
+    <input type="number" id="duration" placeholder="Duration limit">
+    
+    <ul id="result"></ul>
+  </div>
+
+  <script>
+
+    /*
+      Задание:
+      1. При помощи методов изложеных ниже, переформатировать ITEA_COURSES в массив который содержит длину строк каждого из элементов.
+      2. Отфильтровать массив ITEA_COURSES по алфавиту.
+          + Бонусный бал. Вывести на страничку списком
+      3. Реализация функции поиска по массиву ITEA_COURSES.
+          + Бонусный бал. Вывести на страничку инпут и кнопку по которой будет срабатывать поиск.
+    */
+    const ITEA_COURSES = ["Курс HTML & CSS", "JavaScript базовый курс", "JavaScript продвинутый курс", "JavaScript Professional", "Angular 2.4 (базовый)", "Angular 2.4 (продвинутый)", "React.js", "React Native", "Node.js", "Vue.js"];
+
+    window.onload = () => {
+      setCourcesList(ITEA_COURSES);
+
+      let search = document.getElementById('search');
+      search.addEventListener('click', executeSearch);
+      
+      // task 2
+      let duration = document.getElementById('duration');
+      duration.addEventListener('blur', filterMovies);
+      createOptions();
+    }
+
+    function setCourcesList(inputList) {
+      let iteaList = document.getElementById('iteaResult');
+
+      inputList.sort();
+      inputList.forEach((item) => {
+        let li = document.createElement('li');
+        li.innerText = item;
+        li.className = 'course';
+        iteaList.appendChild(li);
+      })
+    }
+
+    function executeSearch() {
+      let items = document.querySelectorAll('.course');
+      removeListItems(items);
+
+      let searchTerm = document.getElementById('searchTerm').value;
+      if (!searchTerm) {
+        setCourcesList(ITEA_COURSES);
+      } else {
+        let foundCources = ITEA_COURSES.filter((item) => {
+          return item.toLowerCase().includes(searchTerm.toLowerCase());
+        })
+        setCourcesList(foundCources);
+      }
+    }
+
+    function createOptions() {
+      let starsPicklist = document.getElementById('starts');
+      starsPicklist.addEventListener('change', filterMovies);
+      stars.sort();
+      let uniqueStars = [...new Set(stars)];
+      uniqueStars.forEach((star) => {
+        let newOption = document.createElement("option");
+        newOption.innerText = star;
+        starsPicklist.appendChild(newOption);
+      })
+    }
+
+    function filterMovies() {
+      let star = document.getElementById('starts').value;
+      let time = document.getElementById('duration').value;
+      time = time ? time : 1000;
+      let filteredMovies = new Set();
+      let moviesByName = movies.map((obj) => {
+        if (obj.starring.includes(star) && obj.duration <= parseInt(time)) {
+          filteredMovies.add(obj.name);
+        }
+      })      
+      let items = document.querySelectorAll('.movieItem');
+      removeListItems(items);
+      let moviesResult = document.getElementById('result');
+      filteredMovies.forEach((movie) => {
+        if (!movie) return;
+
+        let newItem = document.createElement("li");
+        newItem.className = 'movieItem';
+        newItem.innerText = movie;
+        moviesResult.appendChild(newItem);
+      })
+    }
+
+    function removeListItems(itemsToRemove) {
+      itemsToRemove.forEach((item) => {
+        item.remove();
+      })
+    }
+    /*
+      Задание 2:
+      Написать фильтр массива по:
+      Актеру, продолжительности
+
+      Бонус:
+        Сделать графическую оболочку для программы:
+        - Селект со списком актеров
+        - Селект или инпут с продолжительностью
+        - Результат в виде списка фильмов
+    */
+
+    var stars = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom', 'Ewan McGregor', ' Liam Neeson', 'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+    var movies = [
+      {
+        name: "Lord of the Rigs",
+        duration: 240,
+        starring: ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom']
+      },
+      {
+        name: "Star Wars: Episode I - The Phantom Menace",
+        duration: 136,
+        starring: ['Ewan McGregor', ' Liam Neeson', 'Natalie Portman']
+      },
+      {
+        name: "Fargo",
+        duration: 100,
+        starring: ['Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+      },
+      {
+        name: "V for Vendetta",
+        duration: 150,
+        starring: ['Hugo Weaving', 'Natalie Portman', 'Rupert Graves']
+      }
+    ];
+
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

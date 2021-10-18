@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Classwork</title>
+
+</head>
+<body>
+  <div class="wrap">
+      <div class="assigned">
+        <form id="form1" class="ObjForm">
+            <input name="key" placeholder="Enter your key"/>
+            <input name="result" placeholder="Enter your value"/>
+            <button id="submitObj1" type="submit">Send</button>
+        </form>
+        <div class="createResult">
+          <header>
+            Created Object
+          </header>
+          <div class="createdObj">
+            <code id="code1">
+              
+            </code>
+          </div>
+        </div>
+      </div>
+
+      <div class="assigned">
+        <form id="form2" class="ObjForm">
+            <input name="key" placeholder="Enter your key"/>
+            <input name="result" placeholder="Enter your value"/>
+            <button id="submitObj2" type="submit">Send</button>
+          </form>
+          <div class="createResult">
+            <header>
+              Created Object
+            </header>
+            <div class="createdObj">
+              <code id="code2">
+
+              </code>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="resultBlock">
+       <button id="combine">Combine Objects!</button>
+      <h3> Result: </h3>
+      <div id="result"></div>
+    </div>
+
+      <style>
+        .wrap{
+          width: 800px;
+          display: flex;
+        }
+        .ObjForm,
+        .resultBlock{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          box-sizing: border-box;
+          padding: 10px 20px;
+        }
+
+        .assigned{
+          width: 300px;
+          display: flex;
+        }
+        .createResult header{
+          font-weight: 700;
+        }
+      </style>
+
+      <script>
+        /*
+          Задание:
+            1. Используя интерфейс который есть на страничке, написать визуальный
+            конструктор обектов используя значение key-value, которые вводятся в
+            соответствующие поля в форме.
+    
+            2. Каждый созданый обьект выводить в тег code после добавления каждого
+            нового поля. Т.е мы должны визуально видить в каком состоянии наши обьекты
+            сейчас
+    
+            3. По нажатию кнопки Combine Objects! два обьекта должны обьедениться
+            используя метод Object.assing или spread operator и вывестись на стринчку.
+    
+            * Изменять HTML можно.
+    
+        */
+
+        const obj1 = {};
+        const obj2 = {};
+
+        window.onload = () => {
+          let btn1 = document.getElementById('submitObj1');
+          btn1.addEventListener('click', addToObjectOne);
+
+          let btn2 = document.getElementById('submitObj2');
+          btn2.addEventListener('click', addToObjectTwo);
+
+          let combineBtn = document.getElementById('combine');
+          combineBtn.addEventListener('click', combineObjects);
+        }
+
+        function addToObjectOne(event) {
+          event.preventDefault();
+          let form1 = document.getElementById('form1');
+          obj1[form1.key.value] = form1.result.value;
+          let code1 = document.getElementById('code1');
+          code1.innerText = JSON.stringify(obj1);
+          console.log(obj1);
+
+          form1.key.value = '';
+          form1.result.value = '';
+        }
+
+        function addToObjectTwo(event) {
+          event.preventDefault();
+          let form2 = document.getElementById('form2');
+          obj2[form2.key.value] = form2.result.value;
+          let code2 = document.getElementById('code2');
+          code2.innerText = JSON.stringify(obj2);
+          console.log(obj1);
+
+          form2.key.value = '';
+          form2.result.value = '';
+        }
+
+        function combineObjects(event) {
+          let resultBlock = document.getElementById('result');
+          let finalObj = Object.assign(obj1, obj2);
+          resultBlock.innerText = JSON.stringify(finalObj);
+        }
+
+        </script>
+</body>
+</html>
